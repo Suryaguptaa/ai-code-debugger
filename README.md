@@ -21,7 +21,7 @@ An intelligent CLI tool that debugs Java code using Generative AI. It scans sour
 
 1.  **Clone the repository**
     ```bash
-    git clone [https://github.com/Suryaguptaa/ai-code-doctor.git](https://github.com/Suryaguptaa/ai-code-doctor.git)
+    git clone [https://github.com/YOUR_USERNAME/ai-code-doctor.git](https://github.com/YOUR_USERNAME/ai-code-doctor.git)
     cd ai-code-doctor
     ```
 
