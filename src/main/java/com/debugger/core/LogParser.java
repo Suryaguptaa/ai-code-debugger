@@ -7,10 +7,7 @@ import java.util.List;
 
 public class LogParser {
 
-    // Regex Explanation:
-    // at\s+                  -> Matches "at "
-    // ([\w.$]+)              -> Group 1: Class Name (e.g., com.app.Main)
-    // \(([\w]+\.java):(\d+)\) -> Group 2 & 3: (FileName.java:LineNumber)
+
     private static final Pattern TRACE_PATTERN = Pattern.compile(
             "at\\s+([\\w.$]+)\\(([^:]+\\.java):(\\d+)\\)"
     );
@@ -21,7 +18,7 @@ public class LogParser {
 
         String exceptionType = "Unknown Exception";
 
-        // Simple heuristic: The first line usually contains the Exception name
+
         if (lines.length > 0) {
             String firstLine = lines[0];
             if (firstLine.contains("Exception") || firstLine.contains("Error")) {

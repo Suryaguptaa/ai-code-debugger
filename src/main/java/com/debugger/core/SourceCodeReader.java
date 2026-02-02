@@ -6,14 +6,12 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class SourceCodeReader {
-    private static final int CONTEXT_LINES = 5; // How many lines before/after to read
+    private static final int CONTEXT_LINES = 5;
 
-    /**
-     * Finds the file and reads the code around the error line.
-     */
+
     public String readContext(String fileName, int lineNumber) throws IOException {
-        // 1. Find the file path
-        Path projectRoot = Paths.get(System.getProperty("user.dir")); // Start searching from current folder
+
+        Path projectRoot = Paths.get(System.getProperty("user.dir"));
         Path filePath = findFile(projectRoot, fileName);
 
         if (filePath == null) {
@@ -35,17 +33,16 @@ public class SourceCodeReader {
     }
 
     private String extractLines(List<String> lines, int targetLine) {
-        // Line numbers are 1-based, list indices are 0-based
+
         int targetIndex = targetLine - 1;
 
-        // Calculate safe start and end indices
         int start = Math.max(0, targetIndex - CONTEXT_LINES);
         int end = Math.min(lines.size(), targetIndex + CONTEXT_LINES + 1);
 
         StringBuilder snippet = new StringBuilder();
         for (int i = start; i < end; i++) {
-            snippet.append(i + 1) // Add line numbers for the AI
-                    .append(i == targetIndex ? " -> " : "    ") // Mark the error line
+            snippet.append(i + 1)
+                    .append(i == targetIndex ? " -> " : "    ")
                     .append(lines.get(i))
                     .append("\n");
         }
