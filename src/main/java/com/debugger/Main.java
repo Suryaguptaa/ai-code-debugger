@@ -49,7 +49,6 @@ public class Main implements Callable<Integer> {
             String fullCode = "";
             Path fileToDebug = sourceFilePath;
 
-            // 1. INPUT HANDLING
             if (fileToDebug != null) {
                 if (!Files.exists(fileToDebug)) {
                     System.err.println(RED + "❌ File not found: " + fileToDebug + RESET);
@@ -67,13 +66,12 @@ public class Main implements Callable<Integer> {
                 System.out.println(CYAN + "💾 Code saved: " + RESET + fileToDebug.getFileName());
             }
 
-            // 2. AI ANALYSIS
+
             System.out.print(YELLOW + "🧠 Scanning code... " + RESET);
             LlmClient aiClient = new LlmClient();
             String rawResponse = aiClient.analyzeBug(bugDescription, fullCode);
             System.out.println(GREEN + "Done!" + RESET);
 
-            // 3. ROBUST JSON EXTRACTION (The Fix)
             String jsonArray = extractJsonArray(rawResponse);
 
             if (jsonArray == null) {
@@ -98,7 +96,6 @@ public class Main implements Callable<Integer> {
 
             List<String> codeLines = Files.readAllLines(fileToDebug);
 
-            // 4. DISPLAY & APPLY FIXES
             for (JsonNode bug : bugList) {
                 String explanation = bug.has("explanation") ? bug.get("explanation").asText() : "No details.";
                 int lineNum = bug.has("lineNumber") ? bug.get("lineNumber").asInt() : -1;
@@ -119,7 +116,6 @@ public class Main implements Callable<Integer> {
             }
             System.out.println("=".repeat(50));
 
-            // 5. CUMULATIVE VERIFICATION
             System.out.print("\n" + YELLOW + "🧪 Verifying fixes... " + RESET);
             Files.write(fileToDebug, codeLines);
 
@@ -135,7 +131,6 @@ public class Main implements Callable<Integer> {
                 System.out.println(RED + "❌ No Compiler found." + RESET);
             }
 
-            // Cleanup
             if (sourceFilePath == null && fileToDebug != null) {
                 Files.deleteIfExists(fileToDebug);
                 Files.deleteIfExists(Path.of(fileToDebug.toString().replace(".java", ".class")));

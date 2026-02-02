@@ -11,21 +11,14 @@ import java.net.http.HttpResponse;
 
 public class LlmClient {
 
-    // Using Gemini 1.5 Flash (Free tier, fast)
-    // We are adding "-001" to be specific, or you can try "gemini-pro" if this fails
-    // We are switching to "gemini-2.0-flash" which is explicitly listed in your access log
-//    private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=";
-    // Switching to Gemini 2.5 Flash (found in your access list)
     private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=";
     private final String apiKey;
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
 
     public LlmClient() {
-        // Retrieve key from environment variable for security
         this.apiKey = System.getenv("GEMINI_KEY");
 
-        // If the key is missing, throw a clear error so you know what's wrong
         if (this.apiKey == null || this.apiKey.isEmpty()) {
             throw new IllegalStateException("❌ Error: GEMINI_KEY environment variable is not set. Please set it in your terminal.");
         }
@@ -34,10 +27,8 @@ public class LlmClient {
         this.objectMapper = new ObjectMapper();
     }
 
-    // Renamed 'exception' to 'userDescription' since it might be empty now
     public String analyzeBug(String userDescription, String codeContext) throws IOException, InterruptedException {
         String prompt = createPrompt(userDescription, codeContext);
-        // ... rest stays the same ...
         String jsonPayload = createJsonPayload(prompt);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -84,7 +75,6 @@ public class LlmClient {
     }
 
     private String createJsonPayload(String prompt) {
-        // Escaping newlines and quotes for valid JSON
         String safePrompt = prompt.replace("\n", "\\n").replace("\"", "\\\"");
         return """
             {
@@ -105,7 +95,6 @@ public class LlmClient {
                 .path("text").asText();
     }
 
-    // 🛠️ DIAGNOSTIC METHOD
     public void listAvailableModels() {
         try {
             String listUrl = "https://generativelanguage.googleapis.com/v1beta/models?key=" + apiKey;
