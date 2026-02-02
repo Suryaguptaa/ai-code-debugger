@@ -149,9 +149,8 @@ public class Main implements Callable<Integer> {
         }
     }
 
-    // --- Helper Methods ---
 
-    // 🛠️ NEW: Extracts only the JSON Array [...] from chatty text
+
     private String extractJsonArray(String text) {
         int start = text.indexOf("[");
         int end = text.lastIndexOf("]");

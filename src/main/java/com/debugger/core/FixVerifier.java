@@ -12,7 +12,7 @@ public class FixVerifier {
 
     public boolean verifies(Path originalFilePath, String fixedLineOfCode, int lineNumber) {
         try {
-            // 1. Read Original Code
+
             List<String> lines = Files.readAllLines(originalFilePath);
 
             // 2. Apply the Fix (Replace the bad line)
