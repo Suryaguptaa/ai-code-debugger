@@ -1,4 +1,4 @@
-# 🩺 AI Code Debugger (Java)
+# AI Code Review Service
 
 An intelligent CLI tool that debugs Java code using Generative AI. It scans source code for syntax errors, logic bugs, and concurrency issues, then auto-verifies the fixes using the local Java Compiler.
 
